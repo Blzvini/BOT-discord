@@ -28,6 +28,10 @@ client.on('interactionCreate', (interaction) => {
         interaction.reply('Salve corninho!')
     }
 
+    if (interaction.commandName === 'felipe') {
+        interaction.reply('gordaoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo emprestimossssssssssssssssssssssssssssssssssssssssss')
+    }
+
 })
 
 
