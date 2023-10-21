@@ -10,6 +10,18 @@ const commands = [
         name: 'zietz',
         description: 'Salve pro corninho',
     },
+    {
+        name: 'fibo',
+        description: 'Retorna uma sequência fibonacci',
+        options: [
+            {
+                name: 'int',
+                description: 'Número inteiro',
+                type: 4, 
+                required: true,
+            },
+        ],
+    },
 ];
 
 const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);

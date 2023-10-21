@@ -6,7 +6,7 @@
   "name": "bot-discord",
   "description": "Criação de um bot para ajudar no discord.",
   "version": "1.0.0",
-  "main": "src/index.js",
+  "main": "node src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
