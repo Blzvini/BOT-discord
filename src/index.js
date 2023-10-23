@@ -28,11 +28,33 @@ client.on('interactionCreate', (interaction) => {
         interaction.reply('Salve corninho!')
     }
 
-    if (interaction.commandName === 'felipe') {
-        interaction.reply('gordaoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo emprestimossssssssssssssssssssssssssssssssssssssssss')
+    if (interaction.commandName === 'fibo') {
+        const inputNumber = interaction.options.getInteger('int');
+
+        if (isNaN(inputNumber) || !Number.isInteger(inputNumber) || inputNumber < 1) {
+
+
+
+            interaction.reply('Por favor, forneça um número inteiro válido maior ou igual a 1.');
+        } else {
+            const fibonacciSequence = generateFibonacci(inputNumber);
+            interaction.reply(`Sequência de Fibonacci com os primeiros ${inputNumber} números: ${fibonacciSequence.join(', ')}`);
+        }
+    }
+});
+
+
+function generateFibonacci(n) {
+    const sequence = [0, 1];
+
+
+    while (sequence.length < n) {
+        const nextValue = sequence[sequence.length - 1] + sequence[sequence.length - 2];
+        sequence.push(nextValue);
     }
 
-})
+    return sequence;
+}
 
 
 client.login(process.env.TOKEN)
