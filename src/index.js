@@ -1,5 +1,8 @@
 require("dotenv").config();
 const axios = require("axios");
+const { spawn } = require('child_process');
+const pythonProcess = spawn('python3.11', ['./generate_graph.py']);
+const fs = require("fs");
 const { choices } = require("./cripto.js");
 const {
   Client,
@@ -80,6 +83,31 @@ client.on("interactionCreate", async (interaction) => {
       );
     }
   }
+
+  if (interaction.commandName === "graph") {
+    try {
+      const pythonProcess = spawn('python3.11', ['./generate_graph.py']);
+  
+      pythonProcess.on('close', (code) => {
+        if (code === 0) {
+          // O script Python foi executado com sucesso
+          // Envie a imagem gerada no Discord
+          interaction.reply({
+            content: 'Aqui está o gráfico:',
+            files: ['./crypto_prices_graph.png'],
+          });
+        } else {
+          // O script Python falhou
+          interaction.reply('Houve um erro ao gerar o gráfico.');
+          
+        }
+      });
+    } catch (error) {
+      // Se ocorrer um erro durante a execução do spawn, ele será capturado aqui
+      console.error('Erro ao executar o script Python:', error);
+      interaction.reply('Houve um erro ao gerar o gráfico.');
+    }
+  }
 });
 
 async function getCurrencyDataInBRL(currency) {
@@ -144,5 +172,45 @@ function generateFibonacci(n) {
 
   return sequence;
 }
+
+async function getPrices() {
+  const prices = {};
+
+  for (const crypto of choices) {
+    const currencyId = crypto.value;
+
+    try {
+      const response = await axios.get(
+        `https://api.coingecko.com/api/v3/simple/price?ids=${currencyId}&vs_currencies=usd`
+      );
+
+      const price = response.data[currencyId].usd;
+      prices[currencyId] = price;
+    } catch (error) {
+      console.error(`Erro ao obter preço de ${crypto.name}: ${error}`);
+    }
+  }
+
+  return prices;
+}
+
+// Chame a função para obter os preços e salve em um arquivo JSON
+getPrices()
+  .then((prices) => {
+    fs.writeFile(
+      "crypto_prices.json",
+      JSON.stringify(prices, null, 2),
+      (err) => {
+        if (err) {
+          console.error(`Erro ao salvar os preços: ${err}`);
+        } else {
+          console.log("Preços salvos com sucesso.");
+        }
+      }
+    );
+  })
+  .catch((error) => {
+    console.error(`Erro ao obter preços: ${error}`);
+  });
 
 client.login(process.env.TOKEN);

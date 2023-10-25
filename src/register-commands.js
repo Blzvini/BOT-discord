@@ -36,6 +36,10 @@ const commands = [
       },
     ],
   },
+  {
+    name: "graph",
+    description: "Gera um gráfico com as informações das criptomoedas",
+  },
 ];
 
 const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
