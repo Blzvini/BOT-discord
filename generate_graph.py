@@ -1,25 +1,50 @@
-import matplotlib.pyplot as plt
 import json
+import matplotlib.pyplot as plt
 
-with open('./crypto_prices.json') as f:
+with open('./crypto_prices.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
 
-cryptos = list(data.keys())
-prices = list(data.values())
+prices = []
+legend_labels = []
 
-plt.figure(figsize=(10, 6))
+for crypto, value in data.items():
+    price = float(
+        ''.join(filter(str.isdigit, value))[:-2]
+        + '.'
+        + ''.join(filter(str.isdigit, value))[-2:]
+    )
+    prices.append(price)
+    legend_labels.append(f'{crypto} : {value}')
 
-plt.bar(cryptos, prices, color='skyblue')
+sorted_data = sorted(
+    zip(data.keys(), prices, legend_labels), key=lambda x: x[1], reverse=True
+)
+cryptos, sorted_prices, sorted_legend_labels = zip(*sorted_data)
 
-plt.title('Preços das Criptomoedas', fontsize=16)
-plt.xlabel('Criptomoedas', fontsize=12)
-plt.ylabel('Preço em USD', fontsize=12)
+colors = [
+    '#250036',
+    '#381530',
+    '#4b2a2b',
+    '#5f3f26',
+    '#725421',
+    '#85691c',
+    '#997e17',
+    '#ac9312',
+    '#bfa80d',
+    '#d3be08',
+]
 
+bars = plt.bar(cryptos, sorted_prices, color=colors, width=0.5)
+
+
+plt.title('Valor de mercado nas últimas 24h', fontsize=16)
 
 plt.xticks(rotation=45)
 
+plt.grid(linestyle='--', color='0.95')
+plt.gca().set_axisbelow(True)
 
+plt.legend(bars, sorted_legend_labels, loc='upper right')
 plt.margins(0.05)
-
 
 plt.savefig('crypto_prices_graph.png')

@@ -172,29 +172,34 @@ function generateFibonacci(n) {
   return sequence;
 }
 
-async function getPrices() {
-  const prices = {};
+async function getMarketCap() {
+  const marketCaps = {};
 
   for (const crypto of choices) {
     const currencyId = crypto.value;
 
     try {
       const response = await axios.get(
-        `https://api.coingecko.com/api/v3/simple/price?ids=${currencyId}&vs_currencies=usd`
+        `https://api.coingecko.com/api/v3/coins/${currencyId}`
       );
 
-      const price = response.data[currencyId].usd;
-      prices[currencyId] = price;
+      const marketCapBRL = new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }).format(response.data.market_data.market_cap.brl);
+
+      marketCaps[crypto.name] = marketCapBRL;
     } catch (error) {
-      console.error(`Erro ao obter preço de ${crypto.name}: ${error}`);
+      console.error(`Erro ao obter o valor de mercado de ${crypto.name}: ${error}`);
     }
   }
 
-  return prices;
+  return marketCaps;
 }
 
 
-getPrices()
+
+getMarketCap()
   .then((prices) => {
     fs.writeFile(
       "crypto_prices.json",
