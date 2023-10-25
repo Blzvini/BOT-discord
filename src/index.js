@@ -90,20 +90,19 @@ client.on("interactionCreate", async (interaction) => {
   
       pythonProcess.on('close', (code) => {
         if (code === 0) {
-          // O script Python foi executado com sucesso
-          // Envie a imagem gerada no Discord
+
           interaction.reply({
             content: 'Aqui está o gráfico:',
             files: ['./crypto_prices_graph.png'],
           });
         } else {
-          // O script Python falhou
+
           interaction.reply('Houve um erro ao gerar o gráfico.');
           
         }
       });
     } catch (error) {
-      // Se ocorrer um erro durante a execução do spawn, ele será capturado aqui
+
       console.error('Erro ao executar o script Python:', error);
       interaction.reply('Houve um erro ao gerar o gráfico.');
     }
@@ -194,7 +193,7 @@ async function getPrices() {
   return prices;
 }
 
-// Chame a função para obter os preços e salve em um arquivo JSON
+
 getPrices()
   .then((prices) => {
     fs.writeFile(
