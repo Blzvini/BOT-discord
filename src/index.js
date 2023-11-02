@@ -33,26 +33,12 @@ client.on("ready", (x) => {
     client.user.setActivity(`${x.user.tag} is online.`)
 })
 
-client.on('messageCreate', (message) => {
-
-    /* const embed = new EmbedBuilder()
-         .setTitle('Feliz Aniversário')
-         .setDescription('Ta ficando mais velho é?')
-         .setColor('Random')
-         .setURL('https://www.youtube.com/watch?v=5DD8fhgJGfw')
- 
-     message.reply({ embeds: [embed] });
-     return;
-     */
-
-
-});
-
 const birthdayDates = [
     new Date('2000/9/26'),
     new Date('2003/10/25'),
     new Date('2000/2/8'),
     new Date('1999/2/8'),
+    new Date('2000/7/23'),
 
 ]
 
