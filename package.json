@@ -1,6 +1,10 @@
 {
   "dependencies": {
+<<<<<<< HEAD
     "cron": "^3.1.4",
+=======
+    "axios": "^1.5.1",
+>>>>>>> main
     "discord.js": "^14.13.0",
     "dotenv": "^16.3.1"
   },
